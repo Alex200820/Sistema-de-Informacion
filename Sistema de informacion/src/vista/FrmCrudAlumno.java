@@ -8,6 +8,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -74,112 +81,128 @@ public class FrmCrudAlumno extends JFrame implements ActionListener, MouseListen
 	 */
 	public FrmCrudAlumno() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1337, 504);
+		setBounds(100, 100, 1280, 480);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentPane.setLayout(new BorderLayout(0, 10)); // NORTE: título | CENTRO: trabajo | SUR: reporte
 
-		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(31, 153, 101, 14);
-		contentPane.add(lblNombre);
-
-		JLabel lblDNI = new JLabel("DNI");
-		lblDNI.setBounds(31, 194, 73, 14);
-		contentPane.add(lblDNI);
-
-		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setBounds(31, 237, 78, 14);
-		contentPane.add(lblEmail);
-
-		JLabel lblFechanacimiento = new JLabel("FechaNacimiento");
-		lblFechanacimiento.setBounds(31, 278, 108, 14);
-		contentPane.add(lblFechanacimiento);
-
-		txtFechaNacimiento = new JTextField();
-		txtFechaNacimiento.setColumns(10);
-		txtFechaNacimiento.setBounds(163, 275, 143, 20);
-		contentPane.add(txtFechaNacimiento);
-
-		txtEmail = new JTextField();
-		txtEmail.setColumns(10);
-		txtEmail.setBounds(163, 234, 222, 20);
-		contentPane.add(txtEmail);
-
-		txtDNI = new JTextField();
-		txtDNI.setColumns(10);
-		txtDNI.setBounds(163, 191, 143, 20);
-		contentPane.add(txtDNI);
-
-		txtNombre = new JTextField();
-		txtNombre.setColumns(10);
-		txtNombre.setBounds(163, 150, 222, 20);
-		contentPane.add(txtNombre);
-
+		// ============ NORTE: título ============
 		JLabel lblMantenimientoAlumno = new JLabel("Mantenimiento Alumno");
 		lblMantenimientoAlumno.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMantenimientoAlumno.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblMantenimientoAlumno.setBounds(31, 26, 1219, 34);
-		contentPane.add(lblMantenimientoAlumno);
+		contentPane.add(lblMantenimientoAlumno, BorderLayout.NORTH);
+
+		// ============ CENTRO: formulario + botones + tabla ============
+		JPanel panelCentro = new JPanel(new BorderLayout(16, 0));
+		contentPane.add(panelCentro, BorderLayout.CENTER);
+
+		// --- OESTE: formulario con GridBagLayout (nada se desalinea jamás) ---
+		JPanel panelForm = new JPanel(new GridBagLayout());
+		panelCentro.add(panelForm, BorderLayout.WEST);
+
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(4, 4, 4, 4);   // aire uniforme entre filas
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+
+		JLabel lblCodigo = new JLabel("Código");
+		gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0;
+		panelForm.add(lblCodigo, gbc);
+
+		txtCodigo = new JTextField();
+		txtCodigo.setColumns(10);
+		gbc.gridx = 1; gbc.weightx = 1.0;
+		panelForm.add(txtCodigo, gbc);
+
+		JLabel lblNombre = new JLabel("Nombre");
+		gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0;
+		panelForm.add(lblNombre, gbc);
+
+		txtNombre = new JTextField();
+		txtNombre.setColumns(10);
+		gbc.gridx = 1; gbc.weightx = 1.0;
+		panelForm.add(txtNombre, gbc);
+
+		JLabel lblDNI = new JLabel("DNI");
+		gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0;
+		panelForm.add(lblDNI, gbc);
+
+		txtDNI = new JTextField();
+		txtDNI.setColumns(10);
+		gbc.gridx = 1; gbc.weightx = 1.0;
+		panelForm.add(txtDNI, gbc);
+
+		JLabel lblEmail = new JLabel("Email");
+		gbc.gridx = 0; gbc.gridy = 3; gbc.weightx = 0;
+		panelForm.add(lblEmail, gbc);
+
+		txtEmail = new JTextField();
+		txtEmail.setColumns(10);
+		gbc.gridx = 1; gbc.weightx = 1.0;
+		panelForm.add(txtEmail, gbc);
+
+		JLabel lblFechanacimiento = new JLabel("FechaNacimiento");
+		gbc.gridx = 0; gbc.gridy = 4; gbc.weightx = 0;
+		panelForm.add(lblFechanacimiento, gbc);
+
+		txtFechaNacimiento = new JTextField();
+		txtFechaNacimiento.setColumns(10);
+		gbc.gridx = 1; gbc.weightx = 1.0;
+		panelForm.add(txtFechaNacimiento, gbc);
+
+		chkEstado = new JCheckBox("Activo");
+		gbc.gridx = 1; gbc.gridy = 5; gbc.weightx = 0;
+		panelForm.add(chkEstado, gbc);
+
+		// --- CENTRO: botonera apilada con aire (8px entre botones) ---
+		JPanel panelBotones = new JPanel(new GridLayout(0, 1, 0, 8));
+		panelCentro.add(panelBotones, BorderLayout.CENTER);
 
 		btnListar = new JButton("Listar Todos");
 		btnListar.addActionListener(this);
-		btnListar.setBounds(433, 93, 160, 30);
-		contentPane.add(btnListar);
+		panelBotones.add(btnListar);
 
-		btnBuscar = new JButton("Busca");
+		btnBuscar = new JButton("Busca"); // TODO: corregir a "Buscar"
 		btnBuscar.setIcon(new ImageIcon("icons/004-buscar.png"));
 		btnBuscar.addActionListener(this);
-		btnBuscar.setBounds(433, 125, 160, 30);
-		contentPane.add(btnBuscar);
+		panelBotones.add(btnBuscar);
 
 		btnRegistrar = new JButton("Registrar");
 		btnRegistrar.setIcon(new ImageIcon("icons/001-agregar.png"));
 		btnRegistrar.addActionListener(this);
-		btnRegistrar.setBounds(433, 157, 160, 30);
-		contentPane.add(btnRegistrar);
+		panelBotones.add(btnRegistrar);
 
 		btnActualizar = new JButton("Actualizar");
 		btnActualizar.setIcon(new ImageIcon("icons/editar.png"));
 		btnActualizar.addActionListener(this);
-		btnActualizar.setBounds(433, 189, 160, 30);
-		contentPane.add(btnActualizar);
+		panelBotones.add(btnActualizar);
 
 		btnEliminarLogico = new JButton("Eliminar lógico");
 		btnEliminarLogico.setIcon(new ImageIcon("icons/eliminar.png"));
 		btnEliminarLogico.addActionListener(this);
-		btnEliminarLogico.setBounds(433, 221, 160, 30);
-		contentPane.add(btnEliminarLogico);
+		panelBotones.add(btnEliminarLogico);
 
 		btnEliminarFisico = new JButton("Eliminar físico");
 		btnEliminarFisico.setIcon(new ImageIcon("icons/remove.gif"));
 		btnEliminarFisico.addActionListener(this);
-		btnEliminarFisico.setBounds(433, 253, 160, 30);
-		contentPane.add(btnEliminarFisico);
+		panelBotones.add(btnEliminarFisico);
 
 		btnLimpiar = new JButton("Limpiar");
 		btnLimpiar.setIcon(new ImageIcon("icons/005-limpiar.png"));
 		btnLimpiar.addActionListener(this);
-		btnLimpiar.setBounds(433, 285, 160, 30);
-		contentPane.add(btnLimpiar);
-		JLabel lblCodigo = new JLabel("Código");
-		lblCodigo.setBounds(31, 118, 101, 14);
-		contentPane.add(lblCodigo);
+		panelBotones.add(btnLimpiar);
 
-		txtCodigo = new JTextField();
-		txtCodigo.setColumns(10);
-		txtCodigo.setBounds(163, 115, 143, 20);
-		contentPane.add(txtCodigo);
-
+		// --- ESTE: tabla en scrollpane ---
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(606, 71, 691, 293);
-		contentPane.add(scrollPane);
+		scrollPane.setPreferredSize(new Dimension(691, 293));
+		panelCentro.add(scrollPane, BorderLayout.EAST);
 
 		table = new JTable();
 		table.addMouseListener(this);
 		table.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "C\u00F3digo", "Nombres", "DNI", "Correo", "Fecha Nacimiento", "Estado" }));
-		
+
 		table.getColumnModel().getColumn(0).setPreferredWidth(30);
 		table.getColumnModel().getColumn(1).setPreferredWidth(100);
 		table.getColumnModel().getColumn(2).setPreferredWidth(50);
@@ -190,30 +213,29 @@ public class FrmCrudAlumno extends JFrame implements ActionListener, MouseListen
 		table.setRowSelectionAllowed(true);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setDefaultEditor(Object.class, null);
-		
+
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.CENTER);
-		
+
 		table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
 		table.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
 		table.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
-		
+
 		UIDefaults defaults = UIManager.getLookAndFeelDefaults();
 		defaults.putIfAbsent("Table.alternateRowColor", new Color(176, 245, 215));
-		
+
 		scrollPane.setViewportView(table);
-		
-		chkEstado = new JCheckBox("Activo");
-		chkEstado.setBounds(159, 317, 97, 23);
-		contentPane.add(chkEstado);
-		
+
+		// ============ SUR: botón reporte a la derecha ============
+		JPanel panelSur = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+		contentPane.add(panelSur, BorderLayout.SOUTH);
+
 		brnReporte = new JButton("Reporte");
 		brnReporte.setIcon(new ImageIcon("icons/005-reporte-de-negocios.png"));
 		brnReporte.addActionListener(this);
 		brnReporte.setFocusPainted(false);
 		brnReporte.setIconTextGap(8);
-		brnReporte.setBounds(1133, 385, 153, 30);
-		contentPane.add(brnReporte);
+		panelSur.add(brnReporte);
 
 		listarTodos();
 	}
