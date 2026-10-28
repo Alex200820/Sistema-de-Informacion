@@ -7,6 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -71,76 +77,94 @@ public class FrmConsultaAlumno extends JFrame implements ActionListener, KeyList
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 844, 462);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
+		contentPane.setLayout(new BorderLayout(0, 10)); // NORTE: título+filtros | CENTRO: tabla
+
+		// ============ NORTE: título + panel de filtros ============
+		JPanel panelNorte = new JPanel(new BorderLayout(0, 10));
+		contentPane.add(panelNorte, BorderLayout.NORTH);
+
 		JLabel lblTitulo = new JLabel("Consulta de Alumno");
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblTitulo.setBounds(10, 11, 808, 50);
-		contentPane.add(lblTitulo);
-		
-		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(34, 72, 75, 14);
-		contentPane.add(lblNombre);
-		
+		panelNorte.add(lblTitulo, BorderLayout.NORTH);
+
+		// --- filtros con GridBagLayout ---
+		JPanel panelFiltros = new JPanel(new GridBagLayout());
+		panelNorte.add(panelFiltros, BorderLayout.CENTER);
+
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(4, 6, 4, 6);   // aire uniforme
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+
+		JLabel lblNombre = new JLabel("Nombre");  
+		gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0;
+		panelFiltros.add(lblNombre, gbc);
+
 		txtNombre = new JTextField();
-		txtNombre.setBounds(119, 69, 86, 20);
-		contentPane.add(txtNombre);
 		txtNombre.setColumns(10);
-		
+		gbc.gridx = 1; gbc.weightx = 1.0;
+		panelFiltros.add(txtNombre, gbc);
+
 		lblDni = new JLabel("DNI");
-		lblDni.setBounds(255, 72, 75, 14);
-		contentPane.add(lblDni);
-		
+		gbc.gridx = 2; gbc.gridy = 0; gbc.weightx = 0;
+		panelFiltros.add(lblDni, gbc);
+
 		txtDni = new JTextField();
 		txtDni.addKeyListener(this);
 		txtDni.setColumns(10);
-		txtDni.setBounds(340, 69, 101, 20);
-		contentPane.add(txtDni);
-		
+		gbc.gridx = 3; gbc.weightx = 1.0;
+		panelFiltros.add(txtDni, gbc);
+
 		lblCorreo = new JLabel("Correo");
-		lblCorreo.setBounds(539, 72, 75, 14);
-		contentPane.add(lblCorreo);
-		
+		gbc.gridx = 4; gbc.gridy = 0; gbc.weightx = 0;
+		panelFiltros.add(lblCorreo, gbc);
+
 		txtCorreo = new JTextField();
 		txtCorreo.setColumns(10);
-		txtCorreo.setBounds(667, 72, 132, 20);
-		contentPane.add(txtCorreo);
-		
+		gbc.gridx = 5; gbc.weightx = 1.0;
+		panelFiltros.add(txtCorreo, gbc);
+
+		// fila 1: Fecha Nacimiento (desde) ... (hasta)
 		lblDesde = new JLabel("Fecha Nacimiento (desde)");
-		lblDesde.setBounds(67, 113, 190, 14);
-		contentPane.add(lblDesde);
-		
+		gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0;
+		panelFiltros.add(lblDesde, gbc);
+
 		txtDesde = new JTextField();
-		txtDesde.setBounds(286, 110, 115, 20);
-		contentPane.add(txtDesde);
 		txtDesde.setColumns(10);
-		
+		gbc.gridx = 1; gbc.gridy = 1; gbc.weightx = 1.0;
+		panelFiltros.add(txtDesde, gbc);
+
 		lblHasta = new JLabel("(hasta)");
-		lblHasta.setBounds(464, 113, 46, 14);
-		contentPane.add(lblHasta);
-		
+		gbc.gridx = 2; gbc.gridy = 1; gbc.weightx = 0;
+		panelFiltros.add(lblHasta, gbc);
+
 		txtHasta = new JTextField();
-		txtHasta.setBounds(539, 110, 132, 20);
-		contentPane.add(txtHasta);
 		txtHasta.setColumns(10);
-		
+		gbc.gridx = 3; gbc.gridy = 1; gbc.weightx = 1.0;
+		panelFiltros.add(txtHasta, gbc);
+
+		// fila 2: botones centrados
+		JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+		gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 6; gbc.weightx = 0;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.anchor = GridBagConstraints.CENTER;
+		panelFiltros.add(panelBotones, gbc);
+
 		btnFiltrar = new JButton("Filtrar");
 		btnFiltrar.addActionListener(this);
-		btnFiltrar.setBounds(308, 155, 89, 23);
-		contentPane.add(btnFiltrar);
-		
+		panelBotones.add(btnFiltrar);
+
 		btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(this);
-		btnCancelar.setBounds(407, 155, 89, 23);
-		contentPane.add(btnCancelar);
-		
+		panelBotones.add(btnCancelar);
+
+		// ============ CENTRO: tabla ============
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(34, 189, 765, 206);
-		contentPane.add(scrollPane);
-		
+		contentPane.add(scrollPane, BorderLayout.CENTER);
+
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -158,19 +182,18 @@ public class FrmConsultaAlumno extends JFrame implements ActionListener, KeyList
 		table.getTableHeader().setResizingAllowed(false);
 		table.setRowSelectionAllowed(false);
 		table.setDefaultEditor(Object.class, null);
-		
+
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.CENTER);
-		
+
 		table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
 		table.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
 		table.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
-		
+
 		UIDefaults defaults = UIManager.getLookAndFeelDefaults();
 		defaults.putIfAbsent("Table.alternateRowColor", new Color(176, 245, 215));
-		
-		scrollPane.setViewportView(table);
 
+		scrollPane.setViewportView(table);
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnCancelar) {
